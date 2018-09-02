@@ -26,7 +26,7 @@ github_username:  jekyll
 
 # Build settings
 markdown: kramdown
-theme: minima
+remote-theme: macrod68/jekyll-materialize-starter-template
 plugins:
   - jekyll-feed
 
