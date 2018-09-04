@@ -3,8 +3,8 @@ layout: default
 ---
 
   <div class="section no-pad-bot" id="index-banner" style="position: relative">
-    <div id="backgroundImg" style="width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: -5; background-size: cover; background-repeat: no-repeat;"></div>
-    <div id="backgroundImg2" style="width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: -6; background-size: cover; background-repeat: no-repeat;"></div>
+    <div id="backgroundImg" style="width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: -5; background-size: cover; background-repeat: no-repeat; background-color: #303030"></div>
+    <div id="backgroundImg2" style="width: 100vw; height: 100vh; position: absolute; top: 0; left: 0; z-index: -6; background-size: cover; background-repeat: no-repeat; background-color: #303030;"></div>
     <div class="container">
       <br><br><br><br><br><br>
       <h1 class="header center white-text" style="text-shadow: 2px 2px 3px #3030307f">{{ site.title }}</h1>
@@ -29,29 +29,50 @@ layout: default
           {% endfor %}
         ];
         var i = 0;
+        var loading = false;
 
         function updateBanner()
         {
-          i++; i %= images.length;
+          if (loading) return;
           if (useBanner2)
           {
-            banner2.css("background-image", 'url("' + images[i] + '")');
+            var img = new Image();
+            loading = true;
+            img.onload = function()
+            {
+              banner2.css("background-image", 'url("' + images[i] + '")');
 
-            banner.css("z-index", "-5");
-            banner2.css("z-index", "-6");
+              banner.css("z-index", "-5");
+              banner2.css("z-index", "-6");
 
-            banner.fadeOut(1000);
-            banner2.fadeIn(0);
+              banner.fadeOut(1000, callback=function()
+              {
+                i++; i %= images.length;
+              });
+              banner2.fadeIn(0);
+              loading = false;
+            };
+            img.src = images[i];
           }
           else
           {
-            banner.css("background-image", 'url("' + images[i] + '")');
+            var img = new Image();
+            loading = true;
+            img.onload = function()
+            {
+              banner.css("background-image", 'url("' + images[i] + '")');
 
-            banner.css("z-index", "-6");
-            banner2.css("z-index", "-5");
+              banner.css("z-index", "-6");
+              banner2.css("z-index", "-5");
             
-            banner2.fadeOut(1000);
-            banner.fadeIn(0);
+              banner2.fadeOut(1000, callback=function()
+              {
+                i++; i %= images.length;
+              });
+              banner.fadeIn(0);
+              loading = false;
+            };
+            img.src = images[i];
           }
           useBanner2 = !useBanner2;
         }
