@@ -1,5 +1,10 @@
 <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" class="brand-logo" href="{{ "/" | relative_url }}"><img src="{{ '/assets/images/logo.png' | relative_url }}" style="width: 48px; vertical-align: sub"></img></a>
+    <div class="nav-wrapper container">
+      <a id="logo-container" class="brand-logo" href="{{ "/" | relative_url }}">
+        <div style="display: table-cell; height: 64px; vertical-align: middle;">
+          <img src="{{ '/assets/images/logo.png' | relative_url }}" class="responsive-img" style="display: block; height: 48px;"></img>
+        </div>
+      </a>
     {% assign default_paths = site.pages | map: "path" %}
     {% assign page_paths = site.header_pages | default: default_paths %}
 
