@@ -1,25 +1,64 @@
+<!-- $begin -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
-    	<title>Winter Soldiers</title>
-    	<link rel="stylesheet" href="assets/stylesheets/main.css">
+		<title>Winter Soldiers</title>
+		<link rel="stylesheet" href="assets/stylesheets/main.css">
+		<link rel="stylesheet" href="css/materialize.min.css">
+		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<script src="js/materialize.min.js"></script>
 	</head>
 	<body>
 		<header>
-			<img src="assets/logo.png" alt="team logo">
-			<a href="index.html"><img href="index.html" src="assets/TheWinter.png" alt="The Winter"></a>
-			<a href="index.html"><img src="assets/Soldiers.png" alt="Soldiers"></a>
+			<!-- Script to run the sidenav -->
+			<script type="text/javascript">
+				document.addEventListener('DOMContentLoaded', function() {
+				  var elems = document.querySelectorAll('.sidenav');
+				  var instances = M.Sidenav.init(elems);
+				});
+			</script>
 			<nav>
-				<a href="about.html">About Us</a>
-				<a href="sponsor.html">Sponsor Us</a>
-				<a href="outreach.html">Outreach</a>
-				<a href="design.html">Design</a>
-				<a href="resources.html">FTC Resources</a>
-				<a href="contact.html">Contact Us</a>		
+				<div class="nav-wrapper navbar-fixed indigo">
+					<a href="#" data-target="sidenav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+					<a href="index.html">
+						<img src="assets/logo.png" class="hide-on-large brand-logo" style="height:64px"></img>
+						<img src="assets/logo.png" class="hide-on-med-and-down" style="height:64px"></img>
+						<img src="assets/TheWinter.png" class="hide-on-720" style="height:64px;"></img>
+						<img src="assets/Soldiers.png" class="hide-on-720" style="height:64px;"></img>
+					</a>
+					<ul id="nav-mobile" class="right hide-on-med-and-down">
+						<li><a href="about.html">About Us</a></li>
+						<li><a href="sponsor.html">Sponsor Us</a></li>
+						<li><a href="outreach.html">Outreach</a></li>
+						<li><a href="design.html">Design</a></li>
+						<li><a href="resources.html">FTC Resources</a></li>
+						<li><a href="contact.html">Contact Us</a></li>
+					</ul>
+				</div>
 			</nav>
+			<ul id="sidenav-mobile" class="sidenav">
+				<li><a href="about.html">About Us</a></li>
+				<li><a href="sponsor.html">Sponsor Us</a></li>
+				<li><a href="outreach.html">Outreach</a></li>
+				<li><a href="design.html">Design</a></li>
+				<li><a href="resources.html">FTC Resources</a></li>
+				<li><a href="contact.html">Contact Us</a></li>
+			</ul>
 		</header>
-		
-		<p>Contact</p>
+		<main class="container">
+<p>Contact Us</p>
+		</main>
+		<footer class="page-footer indigo">
+			<div class="container">
+				<div class="row">
+					<h4 class="white-text">Our Mission</h4>
+				</div>
+			</div>
+			<div class="footer-copyright indigo darken-2">
+				<p class="white-text left">Copyright (c) 2018 The Winter Soldiers</p>
+				<p class="white-text right">Powered by Materialize</p>
+			</div>
+		</section>
 	</body>
 </html>
