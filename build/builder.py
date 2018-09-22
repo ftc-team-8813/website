@@ -1,3 +1,4 @@
+# Builder.py v1.0.1
 # Build all files in a directory by adding content to templates.
 # Requires Python 3.x
 
@@ -169,6 +170,19 @@ class TemplateParser(Parser):
     def parseLine(self, line):
         self.outfile.write(line)
 
+class Copier(Parser):
+    def __init__(self, outfile):
+        self.outfile = outfile
+
+    def parse(self, command):
+        cmd = command.split(" ")
+        if cmd[0] == "include" or cmd[0] == "req-include":
+            return 1
+        return 0
+
+    def parseLine(self, line):
+        self.outfile.write(line)
+
 def parse(filename, parser):
     with open(filename, "r") as f:
         for line in f:
@@ -200,9 +214,8 @@ def write_page(filename, page_parser):
         printv("Parsing template and writing output")
         if not page_parser.template:
             printv("No template; copying file as-is")
-            with open(filename, "r") as f:
-                for line in f:
-                    outfile.write(line)
+            copier = Copier(outfile)
+            parse(filename, copier)
         else:
             template_parser = TemplateParser(page_parser.sections, outfile)
             parse("generated/" + page_parser.template, template_parser)
