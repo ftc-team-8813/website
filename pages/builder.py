@@ -1,4 +1,4 @@
-# Builder.py v1.0.1
+# Builder.py v1.0.2
 # Build all files in a directory by adding content to templates.
 # Requires Python 3.x
 
@@ -37,6 +37,7 @@
 #                      the page.
 #   $req-include <name> -- Same as $include, but raises a ParseException if the
 #                          section is not defined.
+#   $include-file <file> -- Include the entire contents of an external file
 
 # Templates are also run through the page parser, so that you can apply super-templates
 # to them. This also means that they require the $begin command before the content!
@@ -137,9 +138,10 @@ class PageParser(Parser):
             raise ParseException("Reached end of file; could not find end of section " + self.section)
 
 class TemplateParser(Parser):
-    def __init__(self, sections, outfile):
+    def __init__(self, sections, outfile, keep_includes=True):
         self.sections = sections
         self.outfile = outfile
+        self.keep_includes = keep_includes
 
     def addsection(self, section):
         for line in section:
@@ -153,7 +155,8 @@ class TemplateParser(Parser):
             if cmd[1] in self.sections:
                 printv("Inserting section " + cmd[1])
                 self.addsection(self.sections[cmd[1]])
-            else:
+            elif self.keep_includes:
+                printv("Keeping include " + cmd[1])
                 return 1 # Keep missing includes
         elif cmd[0] == "req-include":
             if len(cmd) < 2:
@@ -163,6 +166,14 @@ class TemplateParser(Parser):
                 self.addsection(self.sections[cmd[1]])
             else:
                 raise ParseException("Undefined section: '" + cmd[1] + "'")
+        elif cmd[0] == "include-file":
+            if len(cmd) < 2:
+                raise ParseException("Not enough arguments for include-file")
+            if not os.path.exists(cmd[1]):
+                raise ParseException("File " + cmd[1] + " does not exist")
+            printv("Including " + cmd[1])
+            copier = Copier(self.outfile)
+            parse(cmd[1], copier)
         else:
             return 1
         return 0
@@ -171,12 +182,13 @@ class TemplateParser(Parser):
         self.outfile.write(line)
 
 class Copier(Parser):
-    def __init__(self, outfile):
+    def __init__(self, outfile, keep=["include","req-include","include-file"]):
         self.outfile = outfile
+        self.keep = keep
 
     def parse(self, command):
         cmd = command.split(" ")
-        if cmd[0] == "include" or cmd[0] == "req-include":
+        if cmd[0] in self.keep:
             return 1
         return 0
 
@@ -208,7 +220,7 @@ def parse_page(filename, default_outdir=".."):
     parse(filename, page_parser) # Fill it up with data
     return page_parser
 
-def write_page(filename, page_parser):
+def write_page(filename, page_parser, keep_includes=True):
     # Open up an output file for the template parser (write a tmp file in case of errors)
     with open(page_parser.outdir + "/" + filename + ".partial", "w") as outfile:
         printv("Parsing template and writing output")
@@ -217,7 +229,7 @@ def write_page(filename, page_parser):
             copier = Copier(outfile)
             parse(filename, copier)
         else:
-            template_parser = TemplateParser(page_parser.sections, outfile)
+            template_parser = TemplateParser(page_parser.sections, outfile, keep_includes)
             parse("generated/" + page_parser.template, template_parser)
     targetname = page_parser.outdir + "/" + filename
     print("Updating " + targetname)
@@ -236,12 +248,15 @@ def parse_template(filename):
     write_page(filename, pp)
 
 def main():
+    if not os.path.exists("generated/templates"):
+        os.makedirs("generated/templates")
     printv("Scanning directory for HTML files")
     for file in glob.glob("*.html"):
         page_parser = parse_page(file)
         if page_parser.template:
-            parse_template(page_parser.template) # Generate required templates
-        write_page(file, page_parser)
+            # Generate required templates
+            parse_template(page_parser.template)
+        write_page(file, page_parser, False)
 
 start = time.perf_counter()
 main()
