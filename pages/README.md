@@ -68,11 +68,6 @@ removed:
 <!-- $endsection -->
 ```
 
-> **Note:**  
-> You can create templates as the content of other templates
-> (sub-templates), but remember that they are parsed like pages,
-> so their content must be inside sections.
-
 Templates are differentiated from normal pages by their placement
 in the `templates` directory. As mentioned previously, templates can
 include sections from pages:
@@ -109,7 +104,7 @@ sections can still be used by the page or template that uses this
 template -->
 
 <!-- Include the template -->
-<!-- $include template.html -->
+<!-- $template template.html -->
 <!-- $begin -->
 <!-- $section main -->
 <header>
@@ -122,6 +117,7 @@ template -->
 <footer>
   <p> This is our HTML5 footer </p>
 </footer>
+<!-- $endsection -->
 ```
 
 ### Using Markdown for Pages
@@ -133,7 +129,7 @@ pages. Since Markdown supports HTML syntax, you can even put the page
 file metadata into your Markdown file, like so:
 
 ```markdown
-<!-- $include template.html -->
+<!-- $template template.html -->
 <!-- $begin -->
 <!-- $section main -->
 # Markdown
