@@ -24,10 +24,20 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-@media screen and (max-width: 1083px) {
+@media screen and (max-width: 1095px) {
     .hide-on-720 {
         display: none;
     }
+}
+
+.banner-image {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -83,8 +93,13 @@ table {
 }
 
 body {
-  background-color:#443C73;
+  background-color:#222277;
   color: #FFFFFF;
+}
+
+::selection {
+  color: #FFFFFF;
+  background: #6666FF;
 }
 /*
   ========================================

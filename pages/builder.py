@@ -22,11 +22,12 @@
 #   $begin              -- Ends the 'header', begins the content. If not included,
 #                          you will probably experience errors!
 #  Available after the header:
-#   $section <name>     -- Use the content between this tag and an $endsection to
-#                          replace a section placeholder in the layout. Nesting is
-#                          not allowed!
-#   $endsection         -- End a section. There must be one of these for every
-#                          $section tag.
+#   $section <name>      -- Use the content between this tag and an $endsection to
+#                           replace a section placeholder in the layout. Nesting is
+#                           not allowed!
+#   $include-file <file> -- Include the entire contents of an external file
+#   $endsection          -- End a section. There must be one of these for every
+#                           $section tag.
 #
 # If a template is not used, the file will be copied as-is. Otherwise, if there is
 # any text outside a section, IT WILL BE REMOVED FROM THE OUTPUT! Unused
@@ -116,6 +117,18 @@ class PageParser(Parser):
                 raise ParseException("Duplicate section name " + section_name)
             self.section = section_name
             self.sections[section_name] = []
+        elif cmd[0] == "include-file":
+            if self.header:
+                return 1
+            if not self.section:
+                return 1
+            if len(cmd) < 2:
+                raise ParseException("Not enough arguments for include-file")
+            if not os.path.exists(cmd[1]):
+                raise ParseException("File " + cmd[1] + " does not exist")
+            printv("Including " + cmd[1])
+            copier = PageCopier(self.sections[self.section])
+            parse(cmd[1], copier)
         elif cmd[0] == "endsection":
             if self.header:
                 raise ParseException("Cannot end section in header!")
@@ -194,6 +207,11 @@ class Copier(Parser):
 
     def parseLine(self, line):
         self.outfile.write(line)
+
+class PageCopier(Copier):
+    def parseLine(self, line):
+        # Append to an array instead of writing to a file
+        self.outfile.append(line)
 
 def parse(filename, parser):
     with open(filename, "r") as f:
