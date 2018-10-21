@@ -91,9 +91,8 @@ the $begin IS required -->
 </html>
 ```
 
-Templates can also include the content of other files using the
-`$include-file` command. This feature is not currently available to
-pages, but it may be added in a later version.
+Templates and pages can also include the content of other files using the
+`$include-file` command.
 
 You can also create sub-templates:
 

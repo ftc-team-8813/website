@@ -3,7 +3,9 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<title>Winter Soldiers</title>
+		<title>
+Home | The Winter Soldiers
+		</title>
 		<link rel="stylesheet" href="assets/stylesheets/main.css">
 		<link rel="stylesheet" href="materialize/css/materialize.min.css">
 		<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -51,21 +53,16 @@
   <div id="backgroundImg" class="banner-image" style="z-index: -5;"></div>
   <div id="backgroundImg2" class="banner-image" style="z-index: -6;"></div>
   <div class="container" style="height: 100vh;">
-    <br><br><br><br><br><br>
-    <h1 class="header center white-text" style="text-shadow: 2px 2px 3px #3030307f">The Winter Soldiers</h1>
-    <div class="row center">
-      <h5 class="header col s12 white-text" style="text-shadow: 2px 2px 3px #3030307f">Team #8813</h5>
-      <br><br><br><br><br><br><br>
+    <div style="padding-top: 30vh">
+      <h1 class="header center white-text" style="text-shadow: 2px 2px 3px #3030307f">The Winter Soldiers</h1>
+      <div class="row center">
+        <h5 class="header col s12 white-text" style="text-shadow: 2px 2px 3px #3030307f">Team #8813</h5>
+      </div>
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  (function($){
-    $(function() {
-      var banner = $("#backgroundImg");
-      var banner2 = $("#backgroundImg2");
-      var useBanner2 = true;
-      var images =
+<script>
+  var images =
 [
   "assets/state_fair.jpg",
   "assets/home_banner/20181013_081322.jpg",
@@ -76,62 +73,21 @@
   "assets/home_banner/Image from iOS (1).jpg",
   "assets/home_banner/Image from iOS (2).jpg"
 ]
-      var i = 0;
-      var loading = false;
-
-      function updateBanner()
-      {
-        if (loading) return;
-        if (useBanner2)
-        {
-          var img = new Image();
-          loading = true;
-          img.onload = function()
-          {
-            banner2.css("background-image", 'url("' + images[i] + '")');
-
-            banner.css("z-index", "-5");
-            banner2.css("z-index", "-6");
-
-            banner.fadeOut(1000, callback=function()
-            {
-              i++; i %= images.length;
-            });
-            banner2.fadeIn(0);
-            loading = false;
-          };
-          img.src = images[i];
-        }
-        else
-        {
-          var img = new Image();
-          loading = true;
-          img.onload = function()
-          {
-            banner.css("background-image", 'url("' + images[i] + '")');
-
-            banner.css("z-index", "-6");
-            banner2.css("z-index", "-5");
-
-            banner2.fadeOut(1000, callback=function()
-            {
-              i++; i %= images.length;
-            });
-            banner.fadeIn(0);
-            loading = false;
-          };
-          img.src = images[i];
-        }
-        useBanner2 = !useBanner2;
-      }
-
-      banner2.fadeOut(0);
-      setInterval(updateBanner, 5000);
-      updateBanner();
-    });
-  })(jQuery);
 </script>
+<script src="assets/js/home_banner.js"></script>
 		<main class="container">
+<h5>Welcome to our new website!</h5>
+<p>
+  <span class="yellow-text">WARNING:</span> This site is UNDER CONSTRUCTION!
+  A lot of content may be missing, outdated, or just plain wrong! If you can't
+  find something, you can see if it's on our
+  <a href="https://wintersoldiers8813.weebly.com/">old website</a>.
+</p>
+<br>
+<br>
+			<br>
+			<br>
+			<br>
 		</main>
 		<footer class="page-footer indigo">
 			<div class="container">
@@ -139,7 +95,7 @@
 					<div class="col s12 m6 l6">
 						<!-- Sponsor links here? -->
 					</div>
-					<div class="col s12 m6 l6 offset-m6 offset-l6">
+					<div class="col s6 m4 l4 offset-m6 offset-l6">
 						<h6>Links</h6>
 						<ul>
 <li><a class="white-text" href="about.html">About Us</a></li>
@@ -150,11 +106,25 @@
 <li><a class="white-text" href="contact.html">Contact Us</a></li>
 						</ul>
 					</div>
+					<div class="col s6 m2 l2">
+						<p class="white-text">Check us out on:</p>
+						<br>
+						<a href="https://github.com/cdbbnnyCode/ftc_8813_master/">
+							<img src="assets/social_icons/github.png" width="32px"></img>
+						</a>
+						<a href="https://twitter.com/ftc8813">
+							<img src="assets/social_icons/twitter.png" width="32px"></img>
+						</a>
+						<a href="https://www.facebook.com/ftcteam8813/">
+							<img src="assets/social_icons/flogo.png" width="32px"></img>
+						</a>
+					</div>
 				</div>
 			</div>
 			<div class="footer-copyright indigo darken-2">
 				<p class="white-text left">Copyright (c) 2018 The Winter Soldiers</p>
-				<p class="white-text right">Powered by Materialize</p>
+				<p class="white-text center">Hosted on <a href="https://github.com/cdbbnnyCode/ftc8813">GitHub Pages</a></p>
+				<p class="white-text right">Powered by <a href="https://materializecss.com">Materialize</a></p>
 			</div>
 		</section>
 	</body>

@@ -1,0 +1,11 @@
+# Keep robots from indexing the pages
+
+User-agent: *
+Disallow: /pages/
+Disallow: /assets/social_icons/
+Disallow: /assets/js/
+Disallow: /assets/stylesheets/
+Disallow: /materialize/
+Disallow: /.gitignore
+Disallow: /LICENSE
+Disallow: /assets/team/

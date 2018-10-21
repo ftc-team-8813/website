@@ -1,4 +1,4 @@
-# Builder.py v1.0.2
+# Builder.py v1.1
 # Build all files in a directory by adding content to templates.
 # Requires Python 3.x
 

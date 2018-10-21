@@ -1,5 +1,8 @@
-<!-- $template home.html -->
+<!-- $template header-footer.html -->
 <!-- $begin -->
+<!-- $section title -->
+Home | The Winter Soldiers
+<!-- $endsection -->
 <!-- $section head -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!-- $endsection -->
@@ -8,75 +11,28 @@
   <div id="backgroundImg" class="banner-image" style="z-index: -5;"></div>
   <div id="backgroundImg2" class="banner-image" style="z-index: -6;"></div>
   <div class="container" style="height: 100vh;">
-    <br><br><br><br><br><br>
-    <h1 class="header center white-text" style="text-shadow: 2px 2px 3px #3030307f">The Winter Soldiers</h1>
-    <div class="row center">
-      <h5 class="header col s12 white-text" style="text-shadow: 2px 2px 3px #3030307f">Team #8813</h5>
-      <br><br><br><br><br><br><br>
+    <div style="padding-top: 30vh">
+      <h1 class="header center white-text" style="text-shadow: 2px 2px 3px #3030307f">The Winter Soldiers</h1>
+      <div class="row center">
+        <h5 class="header col s12 white-text" style="text-shadow: 2px 2px 3px #3030307f">Team #8813</h5>
+      </div>
     </div>
   </div>
 </div>
-<script type="text/javascript">
-  (function($){
-    $(function() {
-      var banner = $("#backgroundImg");
-      var banner2 = $("#backgroundImg2");
-      var useBanner2 = true;
-      var images =
-      <!-- $include-file includes/banner_images.json -->
-      var i = 0;
-      var loading = false;
-
-      function updateBanner()
-      {
-        if (loading) return;
-        if (useBanner2)
-        {
-          var img = new Image();
-          loading = true;
-          img.onload = function()
-          {
-            banner2.css("background-image", 'url("' + images[i] + '")');
-
-            banner.css("z-index", "-5");
-            banner2.css("z-index", "-6");
-
-            banner.fadeOut(1000, callback=function()
-            {
-              i++; i %= images.length;
-            });
-            banner2.fadeIn(0);
-            loading = false;
-          };
-          img.src = images[i];
-        }
-        else
-        {
-          var img = new Image();
-          loading = true;
-          img.onload = function()
-          {
-            banner.css("background-image", 'url("' + images[i] + '")');
-
-            banner.css("z-index", "-6");
-            banner2.css("z-index", "-5");
-
-            banner2.fadeOut(1000, callback=function()
-            {
-              i++; i %= images.length;
-            });
-            banner.fadeIn(0);
-            loading = false;
-          };
-          img.src = images[i];
-        }
-        useBanner2 = !useBanner2;
-      }
-
-      banner2.fadeOut(0);
-      setInterval(updateBanner, 5000);
-      updateBanner();
-    });
-  })(jQuery);
+<script>
+  var images =
+  // <!-- $include-file includes/banner_images.json -->
 </script>
+<script src="assets/js/home_banner.js"></script>
+<!-- $endsection -->
+<!-- $section main -->
+<h5>Welcome to our new website!</h5>
+<p>
+  <span class="yellow-text">WARNING:</span> This site is UNDER CONSTRUCTION!
+  A lot of content may be missing, outdated, or just plain wrong! If you can't
+  find something, you can see if it's on our
+  <a href="https://wintersoldiers8813.weebly.com/">old website</a>.
+</p>
+<br>
+<br>
 <!-- $endsection -->
