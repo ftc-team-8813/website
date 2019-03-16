@@ -136,3 +136,8 @@ h1, h3, h4, h5, p {
 .hero {
   padding: 22px 80px 66px 80px;
 }*/
+
+/* Default to 14-point font */
+p {
+  font-size: 14pt
+}
