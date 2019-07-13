@@ -93,14 +93,21 @@ table {
 }
 
 body {
-  background-color:#222277;
+  background-color:#356080;
   color: #FFFFFF;
+}
+
+.dark_blue {
+  background-color: #2C2C56;
+  color: #2C2C56;
 }
 
 ::selection {
   color: #FFFFFF;
-  background: #6666FF;
+  background: #588CA4;
 }
+
+
 /*
   ========================================
   Typography
