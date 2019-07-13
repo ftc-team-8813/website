@@ -38,6 +38,7 @@ time, mark, audio, video {
   right: 0;
   background-size: cover;
   background-repeat: no-repeat;
+  filter: brightness(60%) grayscale(20%);
 }
 
 /* HTML5 display-role reset for older browsers */
