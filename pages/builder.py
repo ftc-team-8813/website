@@ -1,5 +1,5 @@
-# Builder.py v1.1
-# Build all files in a directory by adding content to templates.
+# Builder.py v1.2
+# Basic template-based HTML compiler.
 # Requires Python 3.x
 
 # THE FORMAT
@@ -233,7 +233,7 @@ def parse(filename, parser):
         parser.end()
 
 def parse_page(filename, default_outdir=".."):
-    print("Parsing page " + filename)
+    printv("Parsing page " + filename)
     page_parser = PageParser(default_outdir)
     parse(filename, page_parser) # Fill it up with data
     return page_parser
@@ -250,7 +250,7 @@ def write_page(filename, page_parser, keep_includes=True):
             template_parser = TemplateParser(page_parser.sections, outfile, keep_includes)
             parse("generated/" + page_parser.template, template_parser)
     targetname = page_parser.outdir + "/" + filename
-    print("Updating " + targetname)
+    printv("Updating " + targetname)
     if (os.path.exists(targetname)):
         os.remove(targetname)
     os.rename(targetname + ".partial", targetname)
@@ -265,19 +265,55 @@ def parse_template(filename):
             parse_template(pp.template)
     write_page(filename, pp)
 
-def main():
-    if not os.path.exists("generated/templates"):
-        os.makedirs("generated/templates")
-    printv("Scanning directory for HTML files")
-    for file in glob.glob("*.html"):
+def parse_dir(dirname):
+    printv("Scanning directory %s for HTML files" % dirname)
+    for file in glob.glob(dirname + "/*.html"):
         page_parser = parse_page(file)
         if page_parser.template:
             # Generate required templates
             parse_template(page_parser.template)
         write_page(file, page_parser, False)
 
-start = time.perf_counter()
-main()
-end = time.perf_counter()
-elapsed = end - start
-print("Done! (%.4f s)" % elapsed);
+def read_config(filename):
+    printv("Reading " + filename)
+    out = {}
+    out["dirs"] = ["."]
+    with open(filename) as config:
+        for line in config:
+            printv(line)
+            if line.startswith('#'):
+                continue
+            if not ':' in line:
+                printv("Ignoring bad configuration line")
+                continue
+            property = line[0:line.index(':')].strip()
+            value = line[line.index(':')+1:].strip()
+
+            if property == "dirs":
+                directories = value.split(',')
+                for i in range(0, len(directories)):
+                    directories[i] = directories[i].strip()
+                out["dirs"].extend(directories)
+    return out
+
+def main():
+    if not os.path.exists("generated/templates"):
+        os.makedirs("generated/templates")
+
+    if not os.path.exists("config.txt"):
+        print("No config.txt found; using default settings")
+        dirs = ["."]
+    else:
+        conf = read_config("config.txt")
+        dirs = conf["dirs"]
+    for d in dirs:
+        if not os.path.exists("../" + d):
+            os.makedirs("../" + d)
+        parse_dir(d)
+
+if __name__ == "__main__":
+    start = time.perf_counter()
+    main()
+    end = time.perf_counter()
+    elapsed = end - start
+    print("Done! (%.4f s)" % elapsed);

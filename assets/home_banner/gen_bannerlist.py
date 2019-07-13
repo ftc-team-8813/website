@@ -12,8 +12,8 @@ def main():
         jpgs = glob.glob('*.jpg')
         random.shuffle(jpgs)
         for file in jpgs:
-            f.write('  "assets/home_banner/' + file + '",\n')
-            print('  "assets/home_banner/' + file + '",')
+            f.write('  "./assets/home_banner/' + file + '",\n')
+            print('  "./assets/home_banner/' + file + '",')
         f.write(']\n')
         print(']')
 
