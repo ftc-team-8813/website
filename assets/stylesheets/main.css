@@ -52,6 +52,15 @@ body {
   min-height: 100vh;
   flex-direction: column;
 }
+
+h1, h2, h3, h4, h5, h6 {
+  color: #222222;
+}
+
+p {
+  color: #222222;
+}
+
 main {
   flex: 1 0 auto;
 }
@@ -69,6 +78,10 @@ q:before, q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+a {
+  color: #547FCA;
 }
 
 /*
