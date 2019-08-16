@@ -26,13 +26,77 @@ Home | The Winter Soldiers
 <script src="assets/js/home_banner.js"></script>
 <!-- $endsection -->
 <!-- $section main -->
-<h5>Welcome to our new website!</h5>
+<!--
 <p>
   <span class="red-text">NOTICE:</span> This site is UNDER CONSTRUCTION!
   A lot of content may be missing, outdated, or just plain wrong! If you can't
   find something, you can see if it's on our
   <a href="https://wintersoldiers8813.weebly.com/">old website</a>.
 </p>
+-->
+
+<h4>Countdown To Skystone</h4>
+<center>
+
+<hr></hr>
+<div class="row" style="margin-right: 10px">
+
+<div class="col s3">
+  <h4 id="days"></h4>
+  <h5>Days</h5>
+</div>
+
+<div class="col s3">
+  <h4 id="hours"></h4>
+  <h5>Hours</h5>
+</div>
+
+<div class="col s3">
+  <h4 id="minutes"></h4>
+  <h5>Minutes</h5>
+</div>
+
+<div class="col s3">
+  <h4 id="seconds"></h4>
+  <h5>Seconds</h5>
+</div>
+
+</div>
+</center>
+
+<script>
+
+  var countDownDate = new Date("2019-09-07").getTime();
+
+  var daysField = document.getElementById("days");
+  var hoursField = document.getElementById("hours");
+  var minutesField = document.getElementById("minutes");
+  var secondsField = document.getElementById("seconds");
+
+  function updateTimer()
+  {
+    var now = new Date().getTime();
+
+    var distance = countDownDate - now;
+
+    if (distance < 0) distance = 0;
+
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    daysField.innerHTML = days.toString();
+    hoursField.innerHTML = hours.toString();
+    minutesField.innerHTML = minutes.toString();
+    secondsField.innerHTML = seconds.toString();
+  }
+  setInterval(updateTimer, 1000);
+
+</script>
+
+<hr></hr>
+
 <h4>About Us</h4>
 
 <p>We are a sixth year
