@@ -28,8 +28,8 @@ the output directory:
 file directly -->
 <!-- $template home.html -->  
 
-<!-- Set the output directory, relative to the location of the build
-script (don't use this on templates!) -->
+<!-- Set the output directory, relative to the default output directory
+(don't use this on templates!) -->
 <!-- $output ../spam -->
 
 <!-- Start the page; WILL THROW AN ERROR IF NOT INCLUDED -->

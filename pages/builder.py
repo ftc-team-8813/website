@@ -1,4 +1,4 @@
-# Builder.py v1.2
+# Builder.py v1.3
 # Basic template-based HTML compiler.
 # Requires Python 3.x
 
@@ -51,19 +51,26 @@ import sys
 
 verbose = False
 
+# Check verbose flag
 if len(sys.argv) > 1:
     if sys.argv[1] == '-v' or sys.argv[1] == '--verbose':
         verbose = True
 
-def printv(v):
+# Print but only if the verbose flag is set
+def printv(*args, **kwargs):
     if verbose:
-        print(v)
+        print(*args, **kwargs)
 
 template_dir = "templates/"
+output_header = "<!DOCTYPE html>\n" \
+              + "<!-- This file is auto-generated. Please edit the appropriate file in pages/\n" \
+              + "     and re-generate the website using builder.py instead of editing this file. -->\n"
 
+# TODO require file/line/token information
 class ParseException(Exception):
     pass
 
+# base template class
 class Parser:
     def parse(self, command):
         pass
@@ -72,6 +79,7 @@ class Parser:
     def end(self):
         pass
 
+# PageParser: parse page commands
 class PageParser(Parser):
 
     def __init__(self, default_outdir):
@@ -80,10 +88,14 @@ class PageParser(Parser):
         self.template = None
         self.sections = {}
         self.outdir = default_outdir
+        self.base_outdir = default_outdir
 
     def parse(self, command):
         cmd = command.split(" ")
         if cmd[0] == "template":
+            # template: set the template for the page (this can only be done once)
+            # reads templates from template_dir
+            # HEADER command: cannot be invoked after begin
             if not self.header:
                 raise ParseException("Template command outside header!")
             if self.template:
@@ -93,18 +105,22 @@ class PageParser(Parser):
             printv("Using template file " + cmd[1])
             self.template = template_dir + cmd[1]
         elif cmd[0] == "output":
+            # output: set the output directory for the file
+            # HEADER command: cannot be invoked after begin
             if not self.header:
                 raise ParseException("Output command outside header!")
             if len(cmd) < 2:
                 raise ParseException("Not enough arguments for output")
             printv("Using output directory " + cmd[1])
-            self.outdir = cmd[1]
+            self.outdir = self.base_outdir + "/" + cmd[1]
         elif cmd[0] == "begin":
+            # begin: end the header and start the content
             if not self.header:
                 raise ParseException("Multiple begin commands!")
             printv("Begin content")
             self.header = False
         elif cmd[0] == "section":
+            # section: begin a section
             if self.header:
                 raise ParseException("Cannot start section in header!")
             if self.section:
@@ -238,16 +254,20 @@ def parse_page(filename, default_outdir=".."):
     parse(filename, page_parser) # Fill it up with data
     return page_parser
 
-def write_page(filename, page_parser, keep_includes=True):
+def write_page(filename, page_parser, keep_includes=True, write_header=False):
     # Open up an output file for the template parser (write a tmp file in case of errors)
     with open(page_parser.outdir + "/" + filename + ".partial", "w", encoding="utf8") as outfile:
         printv("Parsing template and writing output")
         if not page_parser.template:
             printv("No template; copying file as-is")
             copier = Copier(outfile)
+            if write_header:
+                copier.parseLine(output_header)
             parse(filename, copier)
         else:
             template_parser = TemplateParser(page_parser.sections, outfile, keep_includes)
+            if write_header:
+                template_parser.parseLine(output_header)
             parse("generated/" + page_parser.template, template_parser)
     targetname = page_parser.outdir + "/" + filename
     printv("Updating " + targetname)
@@ -259,25 +279,26 @@ def parse_template(filename):
     printv("Parsing template requirement " + filename)
     pp = parse_page(filename, "generated")
     if pp.template:
-        if pp.template == filename:
-            raise ParseException("Infinite recursion is not allowed")
+        if os.path.realpath(pp.template) == os.path.realpath(filename):
+            raise ParseException("Template cannot include itself")
         else:
             parse_template(pp.template)
     write_page(filename, pp)
 
-def parse_dir(dirname):
+def parse_dir(dirname, outdir):
     printv("Scanning directory %s for HTML files" % dirname)
     for file in glob.glob(dirname + "/*.html"):
-        page_parser = parse_page(file)
+        page_parser = parse_page(file, outdir)
         if page_parser.template:
             # Generate required templates
             parse_template(page_parser.template)
-        write_page(file, page_parser, False)
+        write_page(file, page_parser, keep_includes=False, write_header=True)
 
 def read_config(filename):
     printv("Reading " + filename)
     out = {}
     out["dirs"] = ["."]
+    out["outdir"] = ".."
     with open(filename) as config:
         for line in config:
             printv(line)
@@ -294,6 +315,8 @@ def read_config(filename):
                 for i in range(0, len(directories)):
                     directories[i] = directories[i].strip()
                 out["dirs"].extend(directories)
+            elif property == "out_dir":
+                out["outdir"] = value.strip()
     return out
 
 def main():
@@ -303,13 +326,15 @@ def main():
     if not os.path.exists("config.txt"):
         print("No config.txt found; using default settings")
         dirs = ["."]
+        outdir = ".."
     else:
         conf = read_config("config.txt")
         dirs = conf["dirs"]
+        outdir = conf["outdir"]
     for d in dirs:
         if not os.path.exists("../" + d):
             os.makedirs("../" + d)
-        parse_dir(d)
+        parse_dir(d, outdir)
 
 if __name__ == "__main__":
     start = time.perf_counter()
