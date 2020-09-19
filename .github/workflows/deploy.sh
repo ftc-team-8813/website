@@ -23,7 +23,7 @@ find -maxdepth 1 -type f -exec rm {} ';'
 find -maxdepth 1 -type d ! -path './.git' ! -path './.git/*' ! -path '.' -exec rm -r {} ';'
 
 # move everything back here INCLUDING dotfiles
-mv ../output/{*,.[^.],.??*} .
+mv ../output/{.,}* .
 rm -r ../output/
 
 # commit and push
