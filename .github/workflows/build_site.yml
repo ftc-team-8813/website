@@ -1,0 +1,16 @@
+on:
+  push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run
+      run: |
+        ls -l
+        git clone --depth=1 https://github.com/ftc-team-8813/ftc_www
+        cd ftc_www
+        chmod +x .github/workflows/deploy.sh
+        .github/workflows/deploy.sh
+      env:
+        token: ${{ secrets.GITHUB_TOKEN }}

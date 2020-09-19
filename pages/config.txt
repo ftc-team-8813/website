@@ -1,1 +1,2 @@
 dirs: resources
+out_dir: output

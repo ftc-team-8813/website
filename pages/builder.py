@@ -256,6 +256,7 @@ def parse_page(filename, default_outdir=".."):
 
 def write_page(filename, page_parser, keep_includes=True, write_header=False):
     # Open up an output file for the template parser (write a tmp file in case of errors)
+    os.makedirs(os.path.dirname(page_parser.outdir + '/' + filename), exist_ok=True)
     with open(page_parser.outdir + "/" + filename + ".partial", "w", encoding="utf8") as outfile:
         printv("Parsing template and writing output")
         if not page_parser.template:
