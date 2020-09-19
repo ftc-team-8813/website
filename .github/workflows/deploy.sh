@@ -20,4 +20,14 @@ done
 git checkout deploy
 
 # delete everything EXCEPT .git
-# find -type d ! -path './.git' ! -path './.git/*' -delete
+rm *
+find -type d ! -path './.git' ! -path './.git/*' -exec rm -r {} ';'
+
+# move everything back here
+mv ../output/* .
+rm -r ../output/
+
+# commit and push
+# git add --all
+# git commit -m "Deploy website"
+# git push
