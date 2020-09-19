@@ -24,6 +24,6 @@ mv ../output/* .
 rm -r ../output/
 
 # commit and push
-# git add --all
-# git commit -m "Deploy website"
-# git push
+git add --all
+git commit -m "Deploy website"
+git push "$repo_url"

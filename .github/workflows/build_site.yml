@@ -12,4 +12,4 @@ jobs:
         cd ftc_www
         .github/workflows/deploy.sh
       env:
-        token: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
