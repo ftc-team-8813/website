@@ -10,7 +10,7 @@ jobs:
       run: |
         ls -l
         git clone --depth=1 https://github.com/ftc-team-8813/website
-        cd ftc_www
+        cd website
         .github/workflows/deploy.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
