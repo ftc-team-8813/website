@@ -8,8 +8,7 @@ jobs:
     steps:
     - name: Run
       run: |
-        ls -l
-        git clone --depth=1 https://github.com/ftc-team-8813/website
+        git clone https://github.com/ftc-team-8813/website
         cd website
         .github/workflows/deploy.sh
       env:
