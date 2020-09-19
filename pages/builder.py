@@ -1,4 +1,4 @@
-# Builder.py v1.3
+# Builder.py v1.4
 # Basic template-based HTML compiler.
 # Requires Python 3.x
 
@@ -48,13 +48,24 @@ import os.path
 import glob
 import time
 import sys
+import shutil
+
+def print_help():
+    print("Usage: " + sys.argv[0] + " [options]")
+    print("Options:")
+    print("    -v|--verbose  Show build progress (useful if any errors occur)")
+    print("    -h|--help     Show this help")
 
 verbose = False
 
-# Check verbose flag
+# Check flags
 if len(sys.argv) > 1:
-    if sys.argv[1] == '-v' or sys.argv[1] == '--verbose':
-        verbose = True
+    for i in range(1, len(sys.argv)):
+        if sys.argv[i] == '-v' or sys.argv[i] == '--verbose':
+            verbose = True
+        elif sys.argv[i] == '-h' or sys.argv[i] == '--help':
+            print_help()
+            sys.exit(0)
 
 # Print but only if the verbose flag is set
 def printv(*args, **kwargs):
@@ -300,6 +311,7 @@ def read_config(filename):
     out = {}
     out["dirs"] = ["."]
     out["outdir"] = ".."
+    out["deps"] = []
     with open(filename) as config:
         for line in config:
             printv(line)
@@ -318,6 +330,8 @@ def read_config(filename):
                 out["dirs"].extend(directories)
             elif property == "out_dir":
                 out["outdir"] = value.strip()
+            elif property == "deps":
+                out["deps"] = [v.strip() for v in value.split(',')]
     return out
 
 def main():
@@ -327,11 +341,28 @@ def main():
     if not os.path.exists("config.txt"):
         print("No config.txt found; using default settings")
         dirs = ["."]
+        deps = []
         outdir = ".."
     else:
         conf = read_config("config.txt")
         dirs = conf["dirs"]
+        deps = conf["deps"]
         outdir = conf["outdir"]
+    if os.path.realpath(outdir) != os.path.realpath('..'):
+        for dep in deps:
+            dep = '../' + dep
+            printv("copying dependency %s -> %s" % (dep, outdir))
+            dep = os.path.realpath(dep)
+            if os.path.isdir(dep):
+                dest_dir = outdir + '/' + os.path.basename(dep)
+                if os.path.exists(dest_dir):
+                    printv("rm -r " + dest_dir)
+                    shutil.rmtree(dest_dir)
+                printv("cp -r  " + dep + " " + dest_dir)
+                shutil.copytree(dep, dest_dir)
+            else:
+                printv("cp " + dep + " " + outdir)
+                shutil.copy2(dep, outdir)
     for d in dirs:
         if not os.path.exists("../" + d):
             os.makedirs("../" + d)

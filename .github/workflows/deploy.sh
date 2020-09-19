@@ -12,10 +12,6 @@ python3 builder.py || exit 1
 
 mv output/ ../../
 cd ..
-files_to_copy=( .well-known/ assets/ materialize/ .nojekyll CNAME favicon.ico robots.txt)
-for f in ${files_to_copy[@]}; do
-  mv $f ../output/
-done
 
 git checkout deploy
 

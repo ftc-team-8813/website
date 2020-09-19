@@ -1,2 +1,3 @@
 dirs: resources
 out_dir: output
+deps: .well-known/, assets/, materialize, .nojekyll, CNAME, favicon.ico, robots.txt
