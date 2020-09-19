@@ -5,7 +5,7 @@ echo "Python: $(python3 --version)"
 
 user=$GITHUB_ACTOR
 pass=$GITHUB_TOKEN
-repo_url="https://$user:$pass@github.com/ftc-team-8813/ftc_www"
+repo_url="https://$user:$pass@github.com/ftc-team-8813/website"
 
 cd pages
 python3 builder.py || exit 1

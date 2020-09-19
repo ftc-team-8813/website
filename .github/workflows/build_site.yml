@@ -1,5 +1,6 @@
 on:
-  push
+  - push
+  - workflow_dispatch
 
 jobs:
   build:
@@ -8,7 +9,7 @@ jobs:
     - name: Run
       run: |
         ls -l
-        git clone --depth=1 https://github.com/ftc-team-8813/ftc_www
+        git clone --depth=1 https://github.com/ftc-team-8813/website
         cd ftc_www
         .github/workflows/deploy.sh
       env:
