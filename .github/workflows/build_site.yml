@@ -1,0 +1,15 @@
+on:
+  - push
+  - workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Run
+      run: |
+        git clone https://github.com/ftc-team-8813/website
+        cd website
+        .github/workflows/deploy.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

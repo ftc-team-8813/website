@@ -28,8 +28,8 @@ the output directory:
 file directly -->
 <!-- $template home.html -->  
 
-<!-- Set the output directory, relative to the location of the build
-script (don't use this on templates!) -->
+<!-- Set the output directory, relative to the default output directory
+(don't use this on templates!) -->
 <!-- $output ../spam -->
 
 <!-- Start the page; WILL THROW AN ERROR IF NOT INCLUDED -->
@@ -118,6 +118,20 @@ template -->
 </footer>
 <!-- $endsection -->
 ```
+
+### The Configuration
+The file `config.txt` contains various build system options:  
+
+* `dirs: dir1, dir2, dir3, ...`:  
+  Lists the sub-directories to process HTML files in. This is useful, for
+  example, if you have a `blog/` directory for blog entries. Subdirectories are
+  not scanned recursively. 
+* `out_dir: dir`:  
+  Set the output directory to compile the website to. By default, it is `..`,
+  meaning that the pages will be placed in the parent directory.
+* `deps: path1, path2, path3, ...`:
+  If the output directory is NOT `..`, the builder will copy these files and
+  directories into it.
 
 ### Using Markdown for Pages
 
