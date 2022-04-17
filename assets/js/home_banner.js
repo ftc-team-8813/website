@@ -20,7 +20,7 @@
           banner.css("z-index", "-5");
           banner2.css("z-index", "-6");
 
-          banner.fadeOut(1000, callback=function()
+          banner.fadeOut(2000, callback=function()
           {
             i++; i %= images.length;
           });
@@ -40,7 +40,7 @@
           banner.css("z-index", "-6");
           banner2.css("z-index", "-5");
 
-          banner2.fadeOut(1000, callback=function()
+          banner2.fadeOut(2000, callback=function()
           {
             i++; i %= images.length;
           });
